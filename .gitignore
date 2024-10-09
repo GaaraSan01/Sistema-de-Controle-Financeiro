@@ -1,0 +1,7 @@
+# Configurações 
+/venv
+**/__pycache__
+
+# Dados sensiveis
+
+.env
