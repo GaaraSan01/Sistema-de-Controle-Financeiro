@@ -14,9 +14,10 @@ class TransacaoRepository:
         self.cur = self.con.cursor()
         
     def add(self, transacao: Transacao):
-        sql = "INSERT INTO transacoes(valor, tipo, descricao) VALUES (?, ?, ?)"
+        sql = "INSERT INTO transacoes(valor, data, tipo, descricao) VALUES (?, ?, ?, ?)"
         self.cur.execute(sql, (
                 transacao.get_valor(),
+                transacao.get_data(),
                 transacao.get_tipo(),
                 transacao.get_descricao()
             )
@@ -33,5 +34,29 @@ class TransacaoRepository:
     def delete(self, id: int):
         sql = "DELETE FROM transacoes WHERE id = ?"
         res = self.cur.execute(sql, (id,))
+        self.con.commit()
         
         return res
+    
+    def edit(self, transacao: Transacao):
+        sql = '''
+        UPDATE transacoes SET
+        valor = ?,
+        data = ?,
+        tipo = ?,
+        descricao = ?
+        WHERE id = ?;
+        '''
+        
+        self.cur.execute(sql, (
+            transacao.get_valor(),
+            transacao.get_data(),
+            transacao.get_tipo(),
+            transacao.get_descricao(),
+            transacao.get_id()
+        ))
+        
+        self.con.commit()
+        
+        return self.cur.lastrowid
+        

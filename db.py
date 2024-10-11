@@ -7,6 +7,7 @@ cur.execute('''
     CREATE TABLE IF NOT EXISTS transacoes(
         id INTEGER PRIMARY KEY,
         valor TEXT,
+        data TEXT,
         tipo Text,
         descricao TEXT
     );
